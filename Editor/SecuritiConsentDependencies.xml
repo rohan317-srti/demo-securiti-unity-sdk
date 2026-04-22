@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dependencies>
+  <!-- Android Dependencies -->
+  <androidPackages>
+    <!-- Main Securiti Consent SDK -->
+    <androidPackage spec="ai.securiti.cmpsdkcore:consent-sdk:1.144.0">
+      <repositories>
+        <repository>https://cdn-qa.securiti.xyz/consent/maven</repository>
+      </repositories>
+    </androidPackage>
+
+    <!-- Kotlin Coroutines -->
+    <androidPackage spec="org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3" />
+    <androidPackage spec="org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3" />
+
+    <!-- AndroidX Dependencies -->
+    <androidPackage spec="androidx.lifecycle:lifecycle-runtime-ktx:2.6.2" />
+    <androidPackage spec="androidx.activity:activity-ktx:1.8.1" />
+    <androidPackage spec="androidx.core:core-ktx:1.12.0" />
+    <androidPackage spec="androidx.appcompat:appcompat:1.6.1" />
+  </androidPackages>
+
+  <!-- iOS Dependencies -->
+  <iosPods>
+    <iosPod name="ConsentUI"
+            git="https://github.com/securitiai/mobile-consent-sdk-ios.git"
+            tag="1.144.0">
+    </iosPod>
+  </iosPods>
+</dependencies>

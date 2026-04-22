@@ -1,0 +1,31 @@
+{
+  "name": "ai.securiti.consent",
+  "version": "1.144.0",
+  "displayName": "Securiti Consent SDK",
+  "description": "Unity plugin for Securiti's consent management platform. Provides a unified C# API for Android and iOS native SDKs, enabling GDPR, CCPA, and other privacy compliance in Unity games.",
+  "unity": "2021.3",
+  "keywords": [
+    "consent",
+    "privacy",
+    "gdpr",
+    "ccpa",
+    "securiti",
+    "cmp",
+    "compliance"
+  ],
+  "author": {
+    "name": "Securiti",
+    "url": "https://securiti.ai"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  },
+  "samples": [
+    {
+      "displayName": "Basic Integration",
+      "description": "Simple example demonstrating SDK initialization and basic consent management",
+      "path": "Samples~/BasicIntegration"
+    }
+  ]
+}

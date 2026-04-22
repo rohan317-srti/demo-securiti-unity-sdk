@@ -1,0 +1,4 @@
+# Unity uses the `~` suffix to hide folders from import.
+# Override any global `*~` (editor backup) patterns that would ignore them.
+!Samples~
+!Samples~/**
