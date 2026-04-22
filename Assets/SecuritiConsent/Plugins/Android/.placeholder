@@ -1,0 +1,11 @@
+# Android Plugin Placeholder
+
+The Android bridge AAR (securiti-unity-bridge.aar) will be placed here after building.
+
+Build the Android bridge by running:
+```bash
+cd ../../../../../../scripts
+./build-android-bridge.sh
+```
+
+This will compile the Kotlin bridge and copy the AAR to this directory.
