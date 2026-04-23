@@ -1,6 +1,6 @@
 {
   "name": "ai.securiti.consent",
-  "version": "1.144.0",
+  "version": "1.144.1",
   "displayName": "Securiti Consent SDK",
   "description": "Unity plugin for Securiti's consent management platform. Provides a unified C# API for Android and iOS native SDKs, enabling GDPR, CCPA, and other privacy compliance in Unity games.",
   "unity": "2021.3",
