@@ -22,9 +22,7 @@
 
   <!-- iOS Dependencies -->
   <iosPods>
-    <iosPod name="ConsentUI"
-            git="https://github.com/securitiai/mobile-consent-sdk-ios.git"
-            tag="1.144.0">
-    </iosPod>
+    <!-- ConsentUI is published to CocoaPods trunk; pin with version -->
+    <iosPod name="ConsentUI" version="1.144.0" />
   </iosPods>
 </dependencies>

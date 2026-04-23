@@ -269,20 +269,69 @@ public func _GetConsentByPermissionId(_ permissionId: UnsafePointer<CChar>?) -> 
     return 0
 }
 
-// NOTE: GCM (Google Consent Mode) getter APIs were added in ConsentUI > 1.140.
-// CocoaPods trunk currently pins to 1.140.0, which doesn't expose
-// getGCMConsents() / getGCMConfig(). Stubbed to return empty JSON so the
-// iOS build compiles. Restore the full implementation once the pod is
-// pinned to 1.144+ via a custom podspec repo or direct git source.
-
 @_cdecl("_GetGCMConsents")
 public func _GetGCMConsents() -> UnsafePointer<CChar>? {
-    return UnsafePointer(strdup("[]"))
+    var result = "[]"
+    let semaphore = DispatchSemaphore(value: 0)
+    Task.detached {
+        let consents = await ConsentSDK.shared.getGCMConsents()
+        var items: [[String: Any]] = []
+        for (type, status) in consents {
+            let statusInt = toInt(status)
+            items.append([
+                "type":          type.rawValue,   // "analytics_storage", "ad_storage", etc.
+                "consent":       statusInt,
+                "consentString": consentLabel(statusInt)
+            ])
+        }
+        if let data = try? JSONSerialization.data(withJSONObject: items),
+           let s = String(data: data, encoding: .utf8) {
+            result = s
+        }
+        semaphore.signal()
+    }
+    semaphore.wait()
+    return UnsafePointer(strdup(result))
 }
 
 @_cdecl("_GetGCMConfig")
 public func _GetGCMConfig() -> UnsafePointer<CChar>? {
-    return UnsafePointer(strdup("{}"))
+    var result = "{}"
+    let semaphore = DispatchSemaphore(value: 0)
+    Task.detached {
+        if let config = await ConsentSDK.shared.getGCMConfig() {
+            var dict: [String: Any] = [:]
+            if let v = config.showGcmDescription { dict["show_gcm_description"] = v }
+            if let v = config.gcmDescription     { dict["gcm_description"] = v }
+            if let dm = config.defaultMapping {
+                var mapping: [String: Any] = [:]
+                if let v = dm.analyticsStorage    { mapping["analytics_storage"] = v }
+                if let v = dm.adStorage           { mapping["ad_storage"] = v }
+                if let v = dm.adUserData          { mapping["ad_user_data"] = v }
+                if let v = dm.adPersonalization   { mapping["ad_personalization"] = v }
+                dict["default_mapping"] = mapping
+            }
+            if let ro = config.regionOverrides {
+                var overrides: [String: Any] = [:]
+                for (region, dm) in ro {
+                    var mapping: [String: Any] = [:]
+                    if let v = dm.analyticsStorage  { mapping["analytics_storage"] = v }
+                    if let v = dm.adStorage         { mapping["ad_storage"] = v }
+                    if let v = dm.adUserData        { mapping["ad_user_data"] = v }
+                    if let v = dm.adPersonalization { mapping["ad_personalization"] = v }
+                    overrides[region] = mapping
+                }
+                dict["region_overrides"] = overrides
+            }
+            if let data = try? JSONSerialization.data(withJSONObject: dict),
+               let s = String(data: data, encoding: .utf8) {
+                result = s
+            }
+        }
+        semaphore.signal()
+    }
+    semaphore.wait()
+    return UnsafePointer(strdup(result))
 }
 
 @_cdecl("_GetBannerConfig")
